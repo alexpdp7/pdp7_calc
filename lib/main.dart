@@ -1,3 +1,4 @@
+import 'package:expressions/expressions.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(CalcApp());
@@ -19,30 +20,31 @@ class Calc extends StatefulWidget {
 }
 
 class _CalcState extends State<Calc> {
-  int elements = 1;
   TextField textField;
+  List<String> values = [];
 
   _buildRow(int index) {
-    if (index == elements - 1) {
+    if (index == values.length) {
       return TextField(
         keyboardType: TextInputType.number,
         onSubmitted: _submitted,
         autofocus: true,
       );
     }
-    return Text("Item " + index.toString());
+    return Text(values[index]);
   }
 
   _submitted(String text) {
     setState(() {
-      elements = elements + 1;
+      values.add(
+          ExpressionEvaluator().eval(Expression.parse(text), {}).toString());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: this.elements,
+      itemCount: this.values.length + 1,
       itemBuilder: (context, index) => this._buildRow(index),
     );
   }

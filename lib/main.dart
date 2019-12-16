@@ -30,9 +30,14 @@ class _CalcState extends State<Calc> {
         onSubmitted: _submitted,
         autofocus: true,
         textAlign: TextAlign.right,
+        style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
       );
     }
-    return Text(values[index]);
+    return Text(
+      values[index],
+      textAlign: TextAlign.right,
+      style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.75),
+    );
   }
 
   _submitted(String text) {

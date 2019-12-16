@@ -22,7 +22,7 @@ class Calc extends StatefulWidget {
 class _CalcState extends State<Calc> {
   TextField textField;
   TextEditingController textEditingController = new TextEditingController();
-  List<String> values = [];
+  List<Value> values = [];
 
   _buildRow(int index) {
     if (index == values.length) {
@@ -37,9 +37,9 @@ class _CalcState extends State<Calc> {
       return textField;
     }
     return FlatButton(
-        onPressed: () => _insert(values[index]),
+        onPressed: () => _insert(values[index].definition),
         child: Text(
-          values[index],
+          values[index].definition + " = " + values[index].value,
           textAlign: TextAlign.right,
           style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.75),
         ));
@@ -62,11 +62,12 @@ class _CalcState extends State<Calc> {
     setState(() {
       textEditingController.text = "";
       try {
-        var value =
-            ExpressionEvaluator().eval(Expression.parse(text), {}).toString();
+        var value = Value(
+            text,
+            ExpressionEvaluator().eval(Expression.parse(text), {}).toString());
         values.add(value);
       } catch (e) {
-        values.add(e.toString());
+        values.add(Value(text, e.toString()));
       }
     });
   }
@@ -78,4 +79,10 @@ class _CalcState extends State<Calc> {
       itemBuilder: (context, index) => this._buildRow(index),
     );
   }
+}
+
+class Value {
+  String definition, value;
+
+  Value(this.definition, this.value);
 }

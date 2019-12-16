@@ -37,8 +37,13 @@ class _CalcState extends State<Calc> {
 
   _submitted(String text) {
     setState(() {
-      values.add(
-          ExpressionEvaluator().eval(Expression.parse(text), {}).toString());
+      try {
+        var value =
+            ExpressionEvaluator().eval(Expression.parse(text), {}).toString();
+        values.add(value);
+      } catch (e) {
+        values.add(e.toString());
+      }
     });
   }
 

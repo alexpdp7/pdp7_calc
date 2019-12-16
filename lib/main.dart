@@ -29,6 +29,7 @@ class _CalcState extends State<Calc> {
         keyboardType: TextInputType.number,
         onSubmitted: _submitted,
         autofocus: true,
+        textAlign: TextAlign.right,
       );
     }
     return Text(values[index]);
